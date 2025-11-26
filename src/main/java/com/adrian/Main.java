@@ -1,24 +1,24 @@
 package com.adrian;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.adrian.command.Comando;
-import com.adrian.command.ComandoIngreso;
-import com.adrian.command.ComandoSalida;
-import com.adrian.command.Talanquera;
+import com.adrian.strategy.CobroHora;
+import com.adrian.strategy.CobroHoraDescuento;
+import com.adrian.strategy.CobroMensual;
+import com.adrian.strategy.EstrategiaCobro;
 
 public class Main {
     public static void main(String[] args) {
-        Talanquera talanquera = new Talanquera();
+     EstrategiaCobro hora = new CobroHora();
+     EstrategiaCobro mes = new CobroMensual();
+     EstrategiaCobro descuento = new CobroHoraDescuento();
 
-        List<Comando> steps = new ArrayList<>();
-        steps.add(new ComandoIngreso(talanquera));
-        steps.add(new ComandoSalida(talanquera));
+     mostrarTotal(mes, 10);
+     mostrarTotal(hora, 10);
+     mostrarTotal(descuento, 10);
+    }
 
-        for (Comando comando : steps) {
-            System.out.println("---------------------------");
-            comando.ejecutar();
-        }
+    public static void mostrarTotal(EstrategiaCobro cobro, int horas) {
+        System.out.println("\nTOTAL");
+        System.out.println("El valor es de: " + cobro.calcularTotal(horas));
+        System.out.println("Por un total de horas de : " + horas);
     }
 }
