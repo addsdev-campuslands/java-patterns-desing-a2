@@ -1,24 +1,24 @@
 package com.adrian;
 
-import com.adrian.chain_responsability.Cajero;
-import com.adrian.chain_responsability.Gerente;
-import com.adrian.chain_responsability.Supervisor;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.adrian.command.Comando;
+import com.adrian.command.ComandoIngreso;
+import com.adrian.command.ComandoSalida;
+import com.adrian.command.Talanquera;
 
 public class Main {
     public static void main(String[] args) {
-        Cajero cajero = new Cajero();
-        Gerente gerente = new Gerente();
-        Supervisor superv = new Supervisor();
-        
-        Supervisor supervisor = new Supervisor();
+        Talanquera talanquera = new Talanquera();
 
-        cajero.setSiguiente(superv);
-        superv.setSiguiente(gerente);
+        List<Comando> steps = new ArrayList<>();
+        steps.add(new ComandoIngreso(talanquera));
+        steps.add(new ComandoSalida(talanquera));
 
-        cajero.aprobarDescuento(10);//Cajero
-        cajero.aprobarDescuento(22);//Supervisor
-        cajero.aprobarDescuento(35);//Gerente
-
-        supervisor.aprobarDescuento(35); // Efe de foca
+        for (Comando comando : steps) {
+            System.out.println("---------------------------");
+            comando.ejecutar();
+        }
     }
 }
